@@ -1,0 +1,34 @@
+{
+  "name": "order-app",
+  "version": "1.0.0",
+  "description": "order-app microservice",
+  "main": "index.js",
+  "scripts": {
+    "dev": "moleculer-runner --repl --hot services",
+    "start": "moleculer-runner"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/delwar2016/order-app.git"
+  },
+  "keywords": [
+    "microservices",
+    "moleculer",
+    "order app"
+  ],
+  "author": "delwar2016",
+  "dependencies": {
+    "moleculer": "^0.13.9",
+    "moleculer-web": "^0.8.5",
+    "ioredis": "^4.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.10.0",
+    "moleculer-repl": "^0.5.3"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/delwar2016/order-app/issues"
+  },
+  "homepage": "https://github.com/delwar2016/order-app#readme"
+}

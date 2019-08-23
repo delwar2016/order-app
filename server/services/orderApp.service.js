@@ -1,5 +1,4 @@
 "use strict";
-
 module.exports = {
 	name: "orderApp",
 
@@ -7,7 +6,8 @@ module.exports = {
 	 * Service settings
 	 */
 	settings: {
-
+    metrics: true,
+    statistics: true
 	},
 
 	/**
@@ -21,26 +21,42 @@ module.exports = {
 	actions: {
 
     /**
-		 * get all product list
+     * create the order
      * @param ctx
-     * @returns {Promise.<string[]>}
      */
-    productList (ctx) {
-			return Promise.resolve(['product 1', 'product 2']);
-		},
+		createOrder (ctx) {
+		  return Promise.resolve('Order will be created here');
+    },
     /**
-		 * get product by id
+     * cancel order
      * @param ctx
-     * @returns {string}
      */
-    productById (ctx) {
-      return Promise.resolve(`product by id, ${ctx.params.id}`);
-		},
-    createOrder (ctx) {
-    	let orderdetail = ctx.params;
-      this.broker.emit("order.created",orderdetail);
-      return Promise.resolve(ctx.params.payload);
-		}
+    cancelOrder (ctx) {
+      return Promise.resolve('Order will be canceled here');
+    },
+    /**
+     * get order status
+     *
+     * @param ctx
+     * @returns {Promise.<string>}
+     */
+    getOrderStatus (ctx) {
+      return Promise.resolve('Get order status');
+    },
+    /**
+     * get orders
+     * @param ctx
+     */
+    getOrders (ctx) {
+
+    },
+    /**
+     * get order detail
+     * @param ctx
+     */
+    getOrderDetail (ctx) {
+
+    }
 	},
 
 	/**

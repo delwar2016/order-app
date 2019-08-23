@@ -1,8 +1,7 @@
 "use strict";
 
 module.exports = {
-  name: "payment",
-
+  name: "auth",
   /**
    * Service settings
    */
@@ -20,17 +19,16 @@ module.exports = {
    */
   actions: {
 
-    verifyPayment (ctx) {
-
-    },
-
     /**
      * get all product list
      * @param ctx
      * @returns {Promise.<string[]>}
      */
-    makePayment (ctx) {
-      return Promise.resolve(['product 1', 'product 2']);
+    getUserByID (ctx) {
+      return Promise.resolve({id: '01', name: 'delwar'});
+    },
+    verifyToken (ctx) {
+      return Promise.resolve({id: '01', name: 'delwar', token: ctx.token});
     }
   },
 

@@ -6,8 +6,13 @@ module.exports = {
   logLevel: "info",
   logFormatter: "default",
   transporter: "Redis",
-  metrics: false,
+  requestTimeout: 5 * 1000,
   cacher: true,
   serializer: "JSON",
-  requestTimeout: 10 * 1000
+  circuitBreaker: {
+    enabled: true
+  },
+
+  metrics: true,
+  statistics: true
 };

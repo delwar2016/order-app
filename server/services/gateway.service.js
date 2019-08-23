@@ -8,17 +8,79 @@ module.exports = {
 
 	settings: {
 		port: process.env.PORT || 3000,
-
 		routes: [{
+      path: '/api',
+      authorization: false,
       aliases: {
-        "GET products": "orderApp.productList",
-        "GET products/:id": "orderApp.productById",
-				"POST order": "orderApp.createOrder"
-			}
+        "GET stats": "stat.snapshot"
+      }
+    },{
+		  path: '/order',
+      authorization: false,
+      aliases: {
+        "POST create": "orderApp.createOrder",
+        "PUT cancel/:id": "orderApp.cancelOrder",
+				"GET check_status": "orderApp.getOrderStatus"
+			},
+		},{
+      aliases: {
+        "GET delwar": "orderApp.productList",
+      },
+      authorization: true,
+      onBeforeCall(ctx, route, req, res) {
+        this.logger.info("onBeforeCall in protected route");
+        ctx.meta.authToken = req.headers["authorization"];
+      },
+
+      onAfterCall(ctx, route, req, res, data) {
+        this.logger.info("onAfterCall in protected route");
+        res.setHeader("X-Custom-Header", "Authorized path");
+        return data;
+      },
+
+      // Route error handler
+      onError(req, res, err) {
+        res.setHeader("Content-Type", "text/plain");
+        res.writeHead(err.code || 500);
+        res.end("Route error: " + err.message);
+      }
 		}],
     bodyParsers: {
       json: true,
       urlencoded: { extended: true }
     }
+	},
+  methods: {
+    /**
+     * Authorize the request
+     *
+     * @param {Context} ctx
+     * @param {Object} route
+     * @param {IncomingRequest} req
+     * @returns {Promise}
+     */
+    authorize(ctx, route, req) {
+      let authValue = req.headers["authorization"];
+      if (authValue && authValue.startsWith("Bearer ")) {
+        let token = authValue.slice(7);
+        // Verify JWT token
+        return ctx.call("auth.verifyToken", { token })
+          .then(decoded => {
+            //console.log("decoded data", decoded);
+            // If authorization was success, we set the user entity to ctx.meta
+            return ctx.call("auth.getUserByID", { id: decoded.id }).then(user => {
+              ctx.meta.user = user;
+              return Promise.resolve(ctx);
+              this.logger.info("Logged in user", user);
+            });
+          })
+          .catch(err => {
+            if (err instanceof MoleculerError)
+              return this.Promise.reject(err);
+            return this.Promise.reject(new UnAuthorizedError(ERR_INVALID_TOKEN));
+          });
+      } else
+        return this.Promise.reject(new UnAuthorizedError(ERR_NO_TOKEN));
+		}
 	}
 };

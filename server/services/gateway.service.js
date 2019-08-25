@@ -9,22 +9,24 @@ module.exports = {
 	settings: {
 		port: process.env.PORT || 3000,
 		routes: [{
-      path: '/api',
+      cors: {
+        origin: "*",
+        methods: ["GET", "OPTIONS", "POST"],
+        credentials: true
+      },
+      path: '/user',
       authorization: false,
       aliases: {
-        "GET stats": "stat.snapshot"
+        "POST authenticate": "auth.authenticate",
+        "POST register": "auth.registerUser"
       }
     },{
-		  path: '/order',
-      authorization: false,
+      path: '/api',
       aliases: {
-        "POST create": "orderApp.createOrder",
-        "PUT cancel/:id": "orderApp.cancelOrder",
-				"GET check_status": "orderApp.getOrderStatus"
-			},
-		},{
-      aliases: {
-        "GET delwar": "orderApp.productList",
+        "POST order/create": "orderApp.createOrder",
+        "PUT order/cancel/:id": "orderApp.cancelOrder",
+        "GET order/check_status": "orderApp.getOrderStatus",
+        "GET stats": "stat.snapshot"
       },
       authorization: true,
       onBeforeCall(ctx, route, req, res) {

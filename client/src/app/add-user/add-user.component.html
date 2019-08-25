@@ -1,0 +1,19 @@
+<div class="col-md-6 user-container">
+  <h2 class="text-center">Add User</h2>
+  <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input type="text" formControlName="username" placeholder="username" name="username" class="form-control" id="username">
+      <div class="error" *ngIf="addForm.controls['username'].hasError('required') && addForm.controls['username'].touched">Username is required</div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" formControlName="password" placeholder="password" name="password" class="form-control" id="password">
+      <div class="error" *ngIf="addForm.controls['password'].hasError('required') && addForm.controls['password'].touched">Password is required</div>
+    </div>
+
+    <button class="btn btn-success" [disabled]="addForm.invalid">Register</button>
+    <button class="btn btn-success" (click)="cancel()" >Cancel</button>
+  </form>
+</div>

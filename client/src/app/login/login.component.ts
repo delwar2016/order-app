@@ -24,18 +24,23 @@ export class LoginComponent implements OnInit {
         }
         this.userService.login(loginPayload).subscribe(data => {
             if(data.status === 200) {
+                this.userService.LoggedInData(true);
                 window.localStorage.setItem('token', data.result.token);
-                this.router.navigate(['list-user']);
+                this.router.navigate(['/']);
             }else {
+                this.userService.LoggedInData(false);
                 this.invalidLogin = true;
                 alert(data.message);
             }
+        }, error => {
+            alert(error.error.message)
         });
     }
     addUser(): void {
         this.router.navigate(['add-user']);
     };
     ngOnInit() {
+        this.userService.LoggedInData(false);
         window.localStorage.removeItem('token');
         this.loginForm = this.formBuilder.group({
             username: ['', Validators.compose([Validators.required])],

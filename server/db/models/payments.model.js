@@ -10,18 +10,20 @@ const _ = require('underscore');
  * save Payment
  * @param paymentData
  */
-module.exports.saveNewPayment = paymentData => {
-  return User.findOne({username: orderData.username}).then(user => {
-    if (!user) {
-      throw new Error('The user is not registered');
+module.exports.verifyPayment = order => {
+  return Order.findOne({_id: order._id}).then(order => {
+    if (!order) {
+      throw new Error('This is not a valid order');
     }
-    const order = new Order(orderData);
-    order.user = user._id;
-    order.delivery_address = orderData.delivery_address;
-    order.phone_number = orderData.phone_number;
-    order.item_detail = orderData.item_detail;
-    order.price = orderData.price;
-    order.status = orderData.status;
-    return order.save();
+    if (order.status === 'canceled') {
+      throw new Error('Order is already canceled');
+    }
+    if (Math.random() >= 0.5) {
+      order.status = 'confirmed';
+      return order.save();
+    } else {
+      order.status = 'canceled';
+      return order.save()
+    }
   });
 };

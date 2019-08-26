@@ -50,8 +50,20 @@ module.exports = {
      * @param ctx
      */
     cancelOrder (ctx) {
-      console.log('ctx.params.id', ctx.params.id)
       return OrderModel.saveOrderStatus(ctx.params.id, 'canceled').then(orders => {
+        return {
+          status: 200,
+          message: 'success',
+          result: orders
+        };
+      });
+    },
+    /**
+     * cancel order
+     * @param ctx
+     */
+    deliveredOrder (ctx) {
+      return OrderModel.saveOrderStatus(ctx.params.id, 'delivered').then(orders => {
         return {
           status: 200,
           message: 'success',

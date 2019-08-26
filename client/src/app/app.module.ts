@@ -15,6 +15,7 @@ import { HomeComponent } from './home/home.component';
 import { OrderListComponent } from './order-list/order-list.component';
 import { ApiHealthComponent } from './api-health/api-health.component';
 import { AddOrderComponent } from './add-order/add-order.component';
+import { OrderSubmittedComponent } from './order-submitted/order-submitted.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { AddOrderComponent } from './add-order/add-order.component';
         HomeComponent,
         OrderListComponent,
         ApiHealthComponent,
-        AddOrderComponent
+        AddOrderComponent,
+        OrderSubmittedComponent
     ],
     imports: [
         BrowserModule,

@@ -34,7 +34,9 @@ module.exports = {
         "POST order/create": "orderApp.createOrder",
         "GET orders": "orderApp.getOrders",
         "PUT order/cancel/:id": "orderApp.cancelOrder",
+        "PUT order/delivered/:id": "orderApp.deliveredOrder",
         "GET order/check_status": "orderApp.getOrderStatus",
+        "POST order/payment": "payment.verifyPayment",
         "GET stats": "stat.snapshot"
       },
       authorization: true,

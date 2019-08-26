@@ -1,3 +1,4 @@
 {
-  "secret": "orderappsecret"
+  "secret": "orderappsecret",
+  "deliveredDuration": 10
 }

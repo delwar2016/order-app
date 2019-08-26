@@ -6,11 +6,13 @@ import { HomeComponent } from './home/home.component';
 import { AddOrderComponent } from './add-order/add-order.component';
 import { OrderListComponent } from './order-list/order-list.component';
 import { ApiHealthComponent } from './api-health/api-health.component';
+import { OrderSubmittedComponent } from './order-submitted/order-submitted.component';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'add-user', component: AddUserComponent },
     { path: 'add-order', component: AddOrderComponent },
+    { path: 'order-submitted', component: OrderSubmittedComponent },
     { path: 'order-list', component: OrderListComponent },
     { path: 'api-health', component: ApiHealthComponent },
     {path : '', component : OrderListComponent}

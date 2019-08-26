@@ -1,5 +1,5 @@
 "use strict";
-
+const config = require('../config');
 const Order = require('../schemas/orders.schema').Order;
 const User = require('../schemas/users.schema').User;
 const Promise = require('bluebird');
@@ -21,6 +21,7 @@ module.exports.saveNewOrder = orderData => {
     order.item_detail = orderData.item_detail;
     order.price = orderData.price;
     order.created_on = new Date();
+    order.deliveredDuration = config.deliveredDuration || 10;
     return order.save();
   });
 };
@@ -40,6 +41,9 @@ module.exports.saveOrderStatus = (orderId, orderStatus) => {
     }
     if (orderStatus === 'canceled' && _.indexOf(['delivered'], order.status) !== -1) {
       throw new Error('Confirmed/ delivered order can not be canceled');
+    }
+    if (orderStatus === 'delivered' && _.indexOf(['canceled'], order.status) !== -1) {
+      throw new Error('canceled order can not be delivered');
     }
     order.status = orderStatus;
     return order.save();

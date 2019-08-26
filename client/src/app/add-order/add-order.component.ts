@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 import { OrderService } from '../core/order.service';
 import { UserService } from '../core/user.service';
 import { User } from '../model/user.model';
-import { first } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-add-order',
@@ -14,7 +12,6 @@ import { Subscription } from 'rxjs';
 })
 export class AddOrderComponent implements OnInit {
     currentUser: User;
-    currentUserSubscription: Subscription;
     constructor(private formBuilder: FormBuilder, private router: Router,
                 private userService: UserService, private orderService: OrderService) {
         this.currentUser = this.userService.getCurrentUser;
@@ -39,7 +36,8 @@ export class AddOrderComponent implements OnInit {
             .subscribe({
                 next: data => {
                     if (data.status === 200) {
-                        this.orderService.setOrderStatus(data.result);
+                        this.orderService.setCurrentOrder(data.result);
+                        this.router.navigate(['/order-submitted']);
                     } else {
                         alert(data.message);
                     }

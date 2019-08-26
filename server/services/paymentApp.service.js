@@ -1,5 +1,7 @@
 "use strict";
 
+const db = require('../db/MongooseConnector').MongooseConnector()
+const PaymentModel = require('../db/models/payments.model');
 module.exports = {
   name: "payment",
 
@@ -21,16 +23,13 @@ module.exports = {
   actions: {
 
     verifyPayment (ctx) {
-
-    },
-
-    /**
-     * get all product list
-     * @param ctx
-     * @returns {Promise.<string[]>}
-     */
-    makePayment (ctx) {
-      return Promise.resolve(['product 1', 'product 2']);
+      return PaymentModel.verifyPayment(ctx.params).then(order => {
+        return {
+          status: 200,
+          message: 'success',
+          result: order
+        };
+      });
     }
   },
 

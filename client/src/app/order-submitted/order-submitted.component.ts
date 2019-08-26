@@ -20,12 +20,11 @@ export class OrderSubmittedComponent implements OnInit, OnDestroy {
     currentUserSubscription: Subscription;
     constructor(private router: Router,
                 private userService: UserService, private orderService: OrderService) {
-        this.deliveredDuration = 0;
+        this.deliveredDuration = 2;
         this.currentUser = this.userService.getCurrentUser;
         this.currentUserSubscription = this.orderService.getCurrentOrder.subscribe(order => {
             this.currentOrder = order;
             if (this.currentOrder.status === 'created') {
-                this.deliveredDuration = this.currentOrder.deliveredDuration;
                 this.orderService.makePayment(this.currentOrder).subscribe({
                     next: data => {
                         if (data.status === 200) {
@@ -37,19 +36,19 @@ export class OrderSubmittedComponent implements OnInit, OnDestroy {
                             }
                         } else {
                             alert(data.message);
+                            this.router.navigate(['/']);
                         }
                     },
                     error: err => {
                         alert(err.error.message);
+                        this.router.navigate(['/']);
                     }
                 });
             } else if (this.currentOrder.status === 'canceled') {
-                alert('Order is canceled');
                 this.router.navigate(['/']);
             } else if (this.currentOrder.status === 'confirmed') {
-                alert('Order is confirmed');
                 from([2, 2, 2, 4]).pipe(
-                    delay( 1000 * 2)
+                    delay( 1000 * this.deliveredDuration)
                 ).subscribe ( timedItem => {
                     this.orderService.deliveredOrder(this.currentOrder).subscribe({
                         next: data => {
@@ -57,6 +56,7 @@ export class OrderSubmittedComponent implements OnInit, OnDestroy {
                         },
                         error: err => {
                             alert(err.error.message);
+                            this.router.navigate(['/']);
                         }
                     });
                 });

@@ -1,1 +1,52 @@
-<p>api-health works!</p>
+<button class="btn btn-success" (click)="apiHealthRefresh()">Refresh</button>
+<div class="card-group" *ngIf="this.stats.requests">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Total</h5>
+      <div class="card-text" >
+        <h5>Request</h5>
+        <p>Count : {{this.stats.requests.total.count}}</p>
+        <div *ngIf="isObject(this.stats.requests.total.rps)">
+          <h5>Req/Sec</h5>
+          <p>current: {{this.stats.requests.total.rps.current}}</p>
+          <p>rps values: : {{arrayNumberToFixed(this.stats.requests.total.rps.values).join(',')}}</p>
+          <h5>latency</h5>
+          <div class="card-text" *ngFor="let item of  this.stats.requests.total.latency | keyvalue">
+            <p>{{item.key}} : {{item.value.toFixed(4)}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<hr>
+<div *ngIf="this.stats.requests">
+  <div class="card-group" >
+    <div class="card" *ngFor="let item of  this.stats.requests.actions | keyvalue">
+      <div class="card-body">
+        <h5 class="card-title">{{ item.key }}</h5>
+        <div class="card-text" *ngFor="let item2 of  item.value | keyvalue">
+          <div *ngIf="!isObject(item2.value)">
+            <div  *ngIf="item2.key === 'count'">
+              <h5>Request</h5>
+              <p>{{ item2.key }} : {{item2.value}}</p>
+            </div>
+          </div>
+          <div *ngIf="isObject(item2.value)">
+            <div  *ngIf="item2.key === 'rps'">
+              <h5>Req/Sec</h5>
+              <p>current: {{item2.value.current}}</p>
+              <p>rps values: : {{arrayNumberToFixed(item2.value.values).join(',')}}</p>
+            </div>
+            <div  *ngIf="item2.key === 'latency'">
+              <h5>latency</h5>
+              <div class="card-text" *ngFor="let item3 of  item2.value | keyvalue">
+                <p>{{item3.key}} : {{item3.value.toFixed(4)}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

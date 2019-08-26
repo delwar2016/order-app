@@ -34,7 +34,7 @@ export class OrderListComponent implements OnInit {
           .subscribe({
               next: data => {
                   if (data.status === 200) {
-                      const sourceOrder = _.find(this.orders, o => o._id === order._id);
+                      const sourceOrder = _.find(this.orders, o => o.id === order.id);
                       sourceOrder.status = data.result.status;
                   } else {
                       alert(data.message);

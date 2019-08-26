@@ -14,4 +14,10 @@ const userSchema = new Schema({
     type: String
   }
 });
+userSchema.virtual('id').get(function () {
+  return this._id;
+});
+userSchema.set('toJSON', {
+  virtuals: true
+});
 module.exports.User = mongoose.model('user', userSchema);

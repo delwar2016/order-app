@@ -19,7 +19,7 @@ export class OrderService {
     return this.http.get<ApiResponse>(this.baseUrl + 'orders');
   }
   cancelOrder(order: Order): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(this.baseUrl + 'order/cancel/' + order._id, order);
+    return this.http.put<ApiResponse>(this.baseUrl + 'order/cancel/' + order.id, order);
   }
   get getOrderStatus() {
     return this.orderStatus.asObservable();

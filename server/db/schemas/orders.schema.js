@@ -35,6 +35,13 @@ const orderSchema = new Schema({
     type: Date
   }
 });
+
+orderSchema.virtual('id').get(function () {
+  return this._id;
+});
+orderSchema.set('toJSON', {
+  virtuals: true
+});
 orderSchema.pre('save', function(next) {
   Order.findOne({},{},{sort: { 'order_no' :-1}}).then(order => {
     if(order){

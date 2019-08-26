@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from "../model/user.model";
-import { Observable } from "rxjs/index";
-import { ApiResponse } from "../model/api.response";
+import { User } from '../model/user.model';
+import { Observable } from 'rxjs/index';
+import { ApiResponse } from '../model/api.response';
 import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -10,9 +10,9 @@ import { Router } from '@angular/router';
 export class UserService {
 
   constructor(private router: Router, private http: HttpClient) { }
-  baseUrl: string = 'http://localhost:3000/user/';
+  baseUrl = 'http://localhost:3000/user/';
   private loggedIn = new BehaviorSubject<boolean>(false);
-  login(loginPayload) : Observable<ApiResponse> {
+  login(loginPayload): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(this.baseUrl + 'authenticate', loginPayload);
   }
 
@@ -20,7 +20,7 @@ export class UserService {
     return this.http.post<ApiResponse>(this.baseUrl + 'register', user);
   }
   get getCurrentUser() {
-    let currentUser = window.localStorage.getItem('currentUser');
+    const currentUser = window.localStorage.getItem('currentUser');
     return JSON.parse(currentUser);
   }
   public setCurrentUser(user) {

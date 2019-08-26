@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Order } from '../model/order.model';
-import { Observable } from "rxjs/index";
-import { ApiResponse } from "../model/api.response";
+import { Observable } from 'rxjs/index';
+import { ApiResponse } from '../model/api.response';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
@@ -10,9 +10,9 @@ import { BehaviorSubject } from 'rxjs';
 export class OrderService {
 
   constructor(private router: Router, private http: HttpClient) { }
-  baseUrl: string = 'http://localhost:3000/api/';
+  baseUrl = 'http://localhost:3000/api/';
   private orderStatus = new BehaviorSubject<Order>(null);
-  createOrder(order: Order) : Observable<ApiResponse> {
+  createOrder(order: Order): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(this.baseUrl + 'order/create', order);
   }
   getOrders(): Observable<ApiResponse> {

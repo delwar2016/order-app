@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
-import { Observable } from "rxjs/index";
-import { UserService } from "./core/user.service";
-import { Router } from "@angular/router";
+import { Observable } from 'rxjs/index';
+import { UserService } from './core/user.service';
+import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 
 @Component({
@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
 
     async ngOnInit() {
         this.isLoggedIn$ = this.userService.isLoggedIn;
-        if(window.localStorage.getItem('token')) {
+        if (window.localStorage.getItem('token')) {
             this.userService.LoggedInData(true);
         }
         this.userService.isLoggedIn.pipe(first()).subscribe(result => {
@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
         });
     }
 
-    onLogout(){
+    onLogout() {
         this.userService.logout();
     }
 }

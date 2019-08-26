@@ -1,8 +1,8 @@
 "use strict";
 
-const DbService = require("moleculer-db");
 const db = require('../db/MongooseConnector').MongooseConnector()
 const UserModel = require('../db/models/users.model');
+
 module.exports = {
   name: "auth",
   /**
@@ -44,7 +44,8 @@ module.exports = {
      * @param ctx
      */
     verifyToken (ctx) {
-      return UserModel.isAuthenticated(ctx.token);
+      console.log('ctx.token', ctx.params.token)
+      return UserModel.isAuthenticated(ctx.params.token);
     },
     /**
      * registerUser

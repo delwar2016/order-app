@@ -1,3 +1,5 @@
+"use strict";
+
 const { User } = require('../schemas/users.schema');
 const config = require('../config');
 const Promise = require('bluebird');
@@ -33,22 +35,22 @@ module.exports.verifyPassword = (password, username) => {
       const key = config.secret;
       const token = jwt.sign(user, key, { expiresIn: 140000 });
       return {token, user};
+    } else {
+      throw new Error('Unauthorized user');
     }
   });
 };
 module.exports.isAuthenticated = token => {
   const key = config.secret;
   return new Promise((resolve, reject) => {
-    if (!token) return reject('invalid token');
     jwt.verify(token, key, function (err, decoded) {
       if (err) return reject(err);
-      return decoded.data;
+      return resolve(decoded);
     });
   });
 };
 
 module.exports.saveUser = userData => {
-  console.log('user', userData)
   return User.findOne({username: userData.username}).then(user => {
     if (!user) {
       let {password, hashValue } = passwordEncryption(userData.password);
@@ -56,7 +58,12 @@ module.exports.saveUser = userData => {
       userData.hash_value = hashValue;
       let user = new User(userData);
       return user.save();
+    } else {
+      let {password, hashValue } = passwordEncryption(userData.password);
+      userData.password = password;
+      userData.hash_value = hashValue;
+      let user = new User(userData);
+      return user.save();
     }
-    return user;
   });
 }

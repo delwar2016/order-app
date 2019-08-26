@@ -7,20 +7,28 @@ module.exports = {
 	mixins: [ApiGateway],
 
 	settings: {
+    cors: {
+      origin: "*",
+      methods: ["GET", "OPTIONS", "POST"],
+      credentials: false
+    },
 		port: process.env.PORT || 3000,
 		routes: [{
-      cors: {
-        origin: "*",
-        methods: ["GET", "OPTIONS", "POST"],
-        credentials: true
-      },
       path: '/user',
       authorization: false,
       aliases: {
         "POST authenticate": "auth.authenticate",
         "POST register": "auth.registerUser"
+      },
+      bodyParsers: {
+        json: true,
+        urlencoded: { extended: true }
       }
     },{
+      bodyParsers: {
+        json: true,
+        urlencoded: { extended: true }
+      },
       path: '/api',
       aliases: {
         "POST order/create": "orderApp.createOrder",
@@ -29,16 +37,6 @@ module.exports = {
         "GET stats": "stat.snapshot"
       },
       authorization: true,
-      onBeforeCall(ctx, route, req, res) {
-        this.logger.info("onBeforeCall in protected route");
-        ctx.meta.authToken = req.headers["authorization"];
-      },
-
-      onAfterCall(ctx, route, req, res, data) {
-        this.logger.info("onAfterCall in protected route");
-        res.setHeader("X-Custom-Header", "Authorized path");
-        return data;
-      },
 
       // Route error handler
       onError(req, res, err) {
@@ -46,11 +44,7 @@ module.exports = {
         res.writeHead(err.code || 500);
         res.end("Route error: " + err.message);
       }
-		}],
-    bodyParsers: {
-      json: true,
-      urlencoded: { extended: true }
-    }
+		}]
 	},
   methods: {
     /**
@@ -68,21 +62,17 @@ module.exports = {
         // Verify JWT token
         return ctx.call("auth.verifyToken", { token })
           .then(decoded => {
-            //console.log("decoded data", decoded);
             // If authorization was success, we set the user entity to ctx.meta
-            return ctx.call("auth.getUserByID", { id: decoded.id }).then(user => {
-              ctx.meta.user = user;
-              return Promise.resolve(ctx);
-              this.logger.info("Logged in user", user);
-            });
+            this.logger.info("Logged in user", decoded);
+            ctx.meta.user = decoded;
+            return this.Promise.resolve(ctx);
           })
           .catch(err => {
-            if (err instanceof MoleculerError)
-              return this.Promise.reject(err);
-            return this.Promise.reject(new UnAuthorizedError(ERR_INVALID_TOKEN));
+            console.log('err', err)
+            return this.Promise.reject(err);
           });
       } else
-        return this.Promise.reject(new UnAuthorizedError(ERR_NO_TOKEN));
+        return this.Promise.reject(new Error('unauthorized'));
 		}
 	}
 };

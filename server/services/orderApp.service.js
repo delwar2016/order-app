@@ -1,4 +1,7 @@
 "use strict";
+
+const db = require('../db/MongooseConnector').MongooseConnector()
+const OrderModel = require('../db/models/orders.model');
 module.exports = {
 	name: "orderApp",
 
@@ -6,8 +9,6 @@ module.exports = {
 	 * Service settings
 	 */
 	settings: {
-    metrics: true,
-    statistics: true
 	},
 
 	/**
@@ -25,7 +26,15 @@ module.exports = {
      * @param ctx
      */
 		createOrder (ctx) {
-		  return Promise.resolve('Order will be created here');
+		  console.log('ctx.params', ctx.params)
+      ctx.params.username = ctx.meta.user.username;
+      return OrderModel.saveNewOrder(ctx.params).then(order => {
+        return {
+          status: 200,
+          message: 'success',
+          result: order
+        };
+      });
     },
     /**
      * cancel order
@@ -94,3 +103,8 @@ module.exports = {
 
 	}
 };
+
+// return this.broker.call("orderApp.getOrderStatus", {})
+//   .then(res => {
+//     console.log('res', res)
+//   });

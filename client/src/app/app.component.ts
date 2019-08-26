@@ -2,7 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { Observable } from "rxjs/index";
 import { UserService } from "./core/user.service";
 import { Router } from "@angular/router";
-import { filter, first } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +10,7 @@ import { filter, first } from 'rxjs/operators';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-    title = 'client';
+    title = 'Order App';
     isLoggedIn$: Observable<boolean>;
 
     constructor(private router: Router, private userService: UserService) {

@@ -1,10 +1,7 @@
-/**
- * Created by emtiaj on 3/31/17.
- */
+"use strict";
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const ObjectId = Schema.ObjectId;
 
 const userSchema = new Schema({
   username: {
@@ -17,7 +14,4 @@ const userSchema = new Schema({
     type: String
   }
 });
-
-const User = mongoose.model('User', userSchema);
-
-module.exports.User = User;
+module.exports.User = mongoose.model('User', userSchema);

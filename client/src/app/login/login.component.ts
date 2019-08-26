@@ -22,18 +22,22 @@ export class LoginComponent implements OnInit {
             username: this.loginForm.controls.username.value,
             password: this.loginForm.controls.password.value
         }
-        this.userService.login(loginPayload).subscribe(data => {
-            if(data.status === 200) {
-                this.userService.LoggedInData(true);
-                window.localStorage.setItem('token', data.result.token);
-                this.router.navigate(['/']);
-            }else {
-                this.userService.LoggedInData(false);
-                this.invalidLogin = true;
-                alert(data.message);
+        this.userService.login(loginPayload).subscribe({
+            next: data => {
+                if(data.status === 200) {
+                    this.userService.LoggedInData(true);
+                    this.userService.setCurrentUser(data.result.user);
+                    window.localStorage.setItem('token', data.result.token);
+                    this.router.navigate(['/']);
+                }else {
+                    this.userService.LoggedInData(false);
+                    this.invalidLogin = true;
+                    alert(data.message);
+                }
+            },
+            error: (err) => {
+                alert(err.error.message)
             }
-        }, error => {
-            alert(error.error.message)
         });
     }
     addUser(): void {

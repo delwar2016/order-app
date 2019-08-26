@@ -9,7 +9,7 @@ module.exports = {
 	settings: {
     cors: {
       origin: "*",
-      methods: ["GET", "OPTIONS", "POST"],
+      methods: ["GET", "OPTIONS", "POST", "PUT"],
       credentials: false
     },
 		port: process.env.PORT || 3000,
@@ -32,6 +32,7 @@ module.exports = {
       path: '/api',
       aliases: {
         "POST order/create": "orderApp.createOrder",
+        "GET orders": "orderApp.getOrders",
         "PUT order/cancel/:id": "orderApp.cancelOrder",
         "GET order/check_status": "orderApp.getOrderStatus",
         "GET stats": "stat.snapshot"

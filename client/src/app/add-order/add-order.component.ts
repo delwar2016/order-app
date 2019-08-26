@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { OrderService } from "../core/order.service";
@@ -16,9 +16,7 @@ export class AddOrderComponent implements OnInit {
     currentUser: User;
     currentUserSubscription: Subscription;
     constructor(private formBuilder: FormBuilder,private router: Router, private userService: UserService, private orderService: OrderService) {
-        this.currentUserSubscription = this.userService.getCurrentUser.pipe(first()).subscribe(result => {
-            this.currentUser = result;
-        })
+        this.currentUser = this.userService.getCurrentUser;
     }
 
     addForm: FormGroup;
@@ -33,10 +31,6 @@ export class AddOrderComponent implements OnInit {
             card_number: ['', Validators.required]
         });
 
-    }
-
-    ngOnDestroy() {
-        this.currentUserSubscription.unsubscribe();
     }
 
     onSubmit() {
@@ -55,7 +49,7 @@ export class AddOrderComponent implements OnInit {
             });
     }
     cancel() {
-        this.router.navigate(['home']);
+        this.router.navigate(['/']);
     }
 
 }

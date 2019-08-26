@@ -1,1 +1,33 @@
-<p>order-list works!</p>
+<div class="col-md-12">
+  <h2 style="margin: auto"> Order List</h2>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th style="display: none">Id</th>
+      <th>Order No</th>
+      <th>Username</th>
+      <th>Deliver Address</th>
+      <th>Phone Number</th>
+      <th>Item Detail</th>
+      <th>Price ($)</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let order of orders">
+      <td style="display: none">{{order._id}}</td>
+      <td>{{order.order_no}}</td>
+      <td>{{order.user.username}}</td>
+      <td>{{order.delivery_address}}</td>
+      <td>{{order.phone_number}}</td>
+      <td>{{order.item_detail}}</td>
+      <td>{{order.price}}</td>
+      <td>{{order.status}}</td>
+      <td>
+        <button class="btn btn-success" [disabled]="order.status == 'delivered' || order.status == 'canceled'" (click)="cancelOrder(order)"> Cancel</button>
+        </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

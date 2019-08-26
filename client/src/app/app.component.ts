@@ -18,6 +18,9 @@ export class AppComponent implements OnInit {
 
     async ngOnInit() {
         this.isLoggedIn$ = this.userService.isLoggedIn;
+        if(window.localStorage.getItem('token')) {
+            this.userService.LoggedInData(true);
+        }
         this.userService.isLoggedIn.pipe(first()).subscribe(result => {
             if (!result) {
                 this.router.navigate(['/login']);

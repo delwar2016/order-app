@@ -1,7 +1,8 @@
-<div class="col-md-6 user-container">
+<div class="col-md-12">
   <h2 class="text-center">New Order</h2>
   <form [formGroup]="addForm" (ngSubmit)="onSubmit()">
-    <h4>Order Detail</h4>
+    <div></div>
+    <h5>Order Detail</h5>
     <div class="form-group">
       <label >User Name:{{currentUser.username}}</label>
     </div>
@@ -23,12 +24,12 @@
       <div class="error" *ngIf="addForm.controls['item_detail'].hasError('required') && addForm.controls['item_detail'].touched">Item Detail is required</div>
     </div>
     <div class="form-group">
-      <label for="price">Price:</label>
+      <label for="price">Price ($):</label>
       <input type="number" formControlName="price" placeholder="price" name="price" class="form-control" id="price">
       <div class="error" *ngIf="addForm.controls['price'].hasError('required') && addForm.controls['price'].touched">Price is required</div>
     </div>
     <hr>
-    <h4>Payment Detail</h4>
+    <h5>Payment Detail</h5>
     <div class="form-group">
       <label for="card_holder_name">Card Holder Name:</label>
       <input type="text" formControlName="card_holder_name" placeholder="Card holder name" name="card_holder_name" class="form-control" id="card_holder_name">
@@ -39,6 +40,7 @@
       <input type="text" formControlName="card_number" placeholder="card_number" name="card_number" class="form-control" id="card_number">
       <div class="error" *ngIf="addForm.controls['card_number'].hasError('required') && addForm.controls['card_number'].touched">Card holder name is required</div>
     </div>
+    <hr>
     <button class="btn btn-success" [disabled]="addForm.invalid">Save</button>
     <button class="btn btn-success" (click)="cancel()" >Cancel</button>
   </form>

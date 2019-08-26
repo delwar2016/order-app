@@ -10,15 +10,11 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  isLoggedIn$: Observable<boolean>;
   constructor(private router: Router, private userService: UserService) { }
 
   ngOnInit() {
-      this.isLoggedIn$ = this.userService.isLoggedIn;
-      this.userService.isLoggedIn.pipe(first()).subscribe(result => {
-          if (!result) {
-              this.router.navigate(['/login']);
-          }
-      });
+      if(!window.localStorage.getItem('token')) {
+          this.userService.logout();
+      }
   }
 }

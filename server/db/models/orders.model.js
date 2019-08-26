@@ -1,7 +1,7 @@
 "use strict";
 
-const { Order } = require('../schemas/orders.schema');
-const { User } = require('../schemas/users.schema');
+const Order = require('../schemas/orders.schema').Order;
+const User = require('../schemas/users.schema').User;
 const Promise = require('bluebird');
 const _ = require('underscore');
 
@@ -20,8 +20,13 @@ module.exports.saveNewOrder = orderData => {
     order.phone_number = orderData.phone_number;
     order.item_detail = orderData.item_detail;
     order.price = orderData.price;
+    order.created_on = new Date();
     return order.save();
   });
+};
+
+module.exports.getOrdersByUserId = userId => {
+  return Order.find({user: userId}).sort({created_on: -1}).populate('user');
 };
 /**
  * update order status
@@ -33,7 +38,7 @@ module.exports.saveOrderStatus = (orderId, orderStatus) => {
     if (!order) {
       throw new Error('Order not found');
     }
-    if (orderStatus === 'canceled' && _.indexOf(['confirmed', 'delivered'], order.status) !== -1) {
+    if (orderStatus === 'canceled' && _.indexOf(['delivered'], order.status) !== -1) {
       throw new Error('Confirmed/ delivered order can not be canceled');
     }
     order.status = orderStatus;

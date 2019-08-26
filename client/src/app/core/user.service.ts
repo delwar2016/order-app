@@ -12,7 +12,6 @@ export class UserService {
   constructor(private router: Router, private http: HttpClient) { }
   baseUrl: string = 'http://localhost:3000/user/';
   private loggedIn = new BehaviorSubject<boolean>(false);
-  private currentUser = new BehaviorSubject<User>(null);
   login(loginPayload) : Observable<ApiResponse> {
     return this.http.post<ApiResponse>(this.baseUrl + 'authenticate', loginPayload);
   }
@@ -21,10 +20,11 @@ export class UserService {
     return this.http.post<ApiResponse>(this.baseUrl + 'register', user);
   }
   get getCurrentUser() {
-      return this.currentUser.asObservable();
+    let currentUser = window.localStorage.getItem('currentUser');
+    return JSON.parse(currentUser);
   }
   public setCurrentUser(user) {
-    this.currentUser.next(user);
+      window.localStorage.setItem('currentUser', JSON.stringify(user));
   }
   get isLoggedIn() {
       return this.loggedIn.asObservable();
@@ -33,6 +33,8 @@ export class UserService {
       this.loggedIn.next(status);
   }
   logout() {
+      window.localStorage.removeItem('token');
+      window.localStorage.removeItem('currentUser');
       this.loggedIn.next(false);
       this.router.navigate(['/login']);
   }

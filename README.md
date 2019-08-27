@@ -2,8 +2,11 @@
 
 There are two project one is client and other is server.
 
-Server side project is done based on microservices of Moleculer
-we will ge detail about here https://moleculer.services/
+Server side project is done based on microservices of Moleculer.
+
+we will ge detail about it from here: https://moleculer.services/
+
+I have used node version: v10.15.0 
 
 ### pre-requisite
 - mongodb
@@ -13,7 +16,6 @@ we will ge detail about here https://moleculer.services/
 we need to set the connection string on the following file
 - db/MongooseConnector.js
 we need to run both mongodb and redis server
-
 
 
 
@@ -35,6 +37,11 @@ in folder src/app/order-submitted/order-submitted.component.ts
 ### how to use
 In client side, before create/open order we need to add new user. Add new user using username and password.
 After that we can able to login using user name and password.
+
+
+
+## toDO
+i will add docker later
 
 
 

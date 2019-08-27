@@ -16,6 +16,7 @@ we need to run both mongodb and redis server
 
 
 
+
 How will we run the microservices
 - cd server/
 - npm install
@@ -23,9 +24,20 @@ How will we run the microservices
 
 How will we run the angular app (client)
 
+in folder src/app/order-submitted/order-submitted.component.ts
+ the default value of delay is set to 2 seconds. but we can change there. the name of the field is deliveredDuration
+ 
+
 - cd client/
 - npm install
 - npm run start
+
+### how to use
+In client side, before create/open order we need to add new user. Add new user using username and password.
+After that we can able to login using user name and password.
+
+
+
 
 
 

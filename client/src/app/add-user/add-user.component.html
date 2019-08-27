@@ -13,7 +13,7 @@
       <div class="error" *ngIf="addForm.controls['password'].hasError('required') && addForm.controls['password'].touched">Password is required</div>
     </div>
 
-    <button class="btn btn-success" [disabled]="addForm.invalid">Register</button>
+    <button class="btn btn-success" [disabled]="addForm.invalid">Save</button>
     <button class="btn btn-success" (click)="cancel()" >Cancel</button>
   </form>
 </div>

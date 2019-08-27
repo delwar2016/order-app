@@ -17,7 +17,7 @@
         </a>
       </li>
     </ul>
-    <ul class="nav justify-content-end">
+    <ul class="nav justify-content-end" *ngIf="isLoggedIn$ | async as isLoggedIn">
       <li>
         <a  routerLink="business" class="nav-link" routerLinkActive="active" (click)="onLogout()">
           Logout

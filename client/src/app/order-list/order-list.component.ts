@@ -11,7 +11,11 @@ import { _ } from 'underscore';
 })
 export class OrderListComponent implements OnInit {
   orders: Order[];
-  constructor(private router: Router, private orderService: OrderService) { }
+  constructor(private router: Router, private orderService: OrderService) {
+      if (!window.localStorage.getItem('token')) {
+          this.router.navigate(['/login']);
+      }
+  }
 
   ngOnInit() {
       this.orderService.getOrders()
